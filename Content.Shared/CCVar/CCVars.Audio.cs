@@ -71,4 +71,5 @@ public sealed partial class CCVars
     [CVarControl(AdminFlags.VarEdit)]
     public static readonly CVarDef<string> LobbyMusicCollection =
         CVarDef.Create("audio.lobby_music_collection", "LobbyMusic", CVar.REPLICATED | CVar.SERVER);
+    
 }

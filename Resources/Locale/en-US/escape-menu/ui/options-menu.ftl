@@ -102,6 +102,8 @@ ui-options-bwoink-sound = Play AHelp Notification Sound
 ui-options-volume-label = Volume
 # Goobstation - Highlight Volume
 ui-options-highlight-volume = Chat Highlight Ping Volume:
+# Omustation - RadioStation volume
+ui-options-radioStation-volume = Station Radio Volume:
 
 ## Graphics menu
 

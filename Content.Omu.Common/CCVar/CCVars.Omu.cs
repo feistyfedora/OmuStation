@@ -16,4 +16,7 @@ public sealed partial class OmuCVars
     /// </summary>
     public static readonly CVarDef<bool> DisablePathfinding =
         CVarDef.Create("omu.disable_pathfinding", false, CVar.SERVER | CVar.SERVERONLY);
+
+    public static readonly CVarDef<float> StationRadioVolume =
+        CVarDef.Create("StationRadio.volume", 0.50f, CVar.CLIENT | CVar.REPLICATED);
 }

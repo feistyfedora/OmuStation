@@ -1,9 +1,14 @@
+using Content.Omu.Common.CCVar;
 using Content.Goobstation.Shared.StationRadio.Components;
 using Content.Goobstation.Shared.StationRadio.Events;
 using Content.Shared.Interaction;
 using Content.Shared.Power;
 using Content.Shared.Power.EntitySystems;
+using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Configuration;
+using Robust.Shared.Audio.Components;
+
 
 namespace Content.Goobstation.Shared.StationRadio.Systems;
 
@@ -11,19 +16,61 @@ public sealed class StationRadioReceiverSystem : EntitySystem
 {
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedPowerReceiverSystem _power = default!;
+    [Dependency] private readonly IConfigurationManager _cfgMan = default!;
+    
+    // Omustation - volume controller for station radio
+    private float _volume = 0f;
     public override void Initialize()
     {
         base.Initialize();
+
+        SubscribeLocalEvent<StationRadioReceiverComponent, StationRadioLocalAudioChangeEvent>(OnAudioChanged);
         SubscribeLocalEvent<StationRadioReceiverComponent, StationRadioMediaPlayedEvent>(OnMediaPlayed);
         SubscribeLocalEvent<StationRadioReceiverComponent, StationRadioMediaStoppedEvent>(OnMediaStopped);
         SubscribeLocalEvent<StationRadioReceiverComponent, ActivateInWorldEvent>(OnRadioToggle);
         SubscribeLocalEvent<StationRadioReceiverComponent, PowerChangedEvent>(OnPowerChanged);
+
+        Subs.CVar(_cfgMan, OmuCVars.StationRadioVolume, StationRadioCVarChanged, true);
+
+        _volume = _cfgMan.GetCVar(OmuCVars.StationRadioVolume);
+    }
+
+
+    private void StationRadioCVarChanged(float obj) 
+    {
+        _volume = obj * 100.0f;
+
+        var query = AllEntityQuery<StationRadioReceiverComponent>();
+        while (query.MoveNext(out var receiver, out var receiverComponent))
+        {
+            if (receiverComponent.SoundEntity != null && _power.IsPowered(receiver))
+                {
+                    receiverComponent.volume = _volume;
+                    receiverComponent.synced = false;
+                    RaiseLocalEvent(receiver, new StationRadioLocalAudioChangeEvent());
+                }
+        }
+    }
+
+    private void audioUpdate(StationRadioReceiverComponent comp)
+    {
+        if(comp.SoundEntity != null && !comp.synced) {
+            AudioComponent? component = null;
+            Resolve(comp.SoundEntity.Value, ref component);
+            if (component != null) 
+                component.setSync(false);
+        }
+        _audio.SetGain(comp.SoundEntity, comp.Active ? comp.volume : 0f);
+    }
+    private void OnAudioChanged(EntityUid uid, StationRadioReceiverComponent comp, StationRadioLocalAudioChangeEvent args)
+    {
+        audioUpdate(comp);
     }
 
     private void OnPowerChanged(EntityUid uid, StationRadioReceiverComponent comp, PowerChangedEvent args)
     {
         if(comp.SoundEntity != null && args.Powered)
-            _audio.SetGain(comp.SoundEntity, comp.Active ? comp.DefaultParams.Volume : 0f);
+            audioUpdate(comp);
         else if(comp.SoundEntity != null)
             _audio.SetGain(comp.SoundEntity, 0);
     }
@@ -32,19 +79,32 @@ public sealed class StationRadioReceiverSystem : EntitySystem
     {
         comp.Active = !comp.Active;
         if (comp.SoundEntity != null && _power.IsPowered(uid))
-            _audio.SetGain(comp.SoundEntity, comp.Active ? comp.DefaultParams.Volume : 0f);
+            audioUpdate(comp);
     }
 
     private void OnMediaPlayed(EntityUid uid, StationRadioReceiverComponent comp, StationRadioMediaPlayedEvent args)
     {
-        var audio = _audio.PlayPredicted(args.MediaPlayed, uid, uid, comp.DefaultParams);
-        if (audio != null && _power.IsPowered(uid) && comp.Active)
+        AudioParams newAudioSet;
+        // Update comp with local _volume
+        if (comp.volume > 0) 
+        {
+            newAudioSet = new AudioParams().WithVolume(comp.volume);
+        } else {
+        
+            newAudioSet = comp.DefaultParams;
+        }
+        
+
+        var audio = _audio.PlayPredicted(args.MediaPlayed, uid, uid, newAudioSet);
+        if (audio != null && _power.IsPowered(uid) && comp.Active) {
             comp.SoundEntity = audio.Value.Entity;
-        else if (audio != null && !_power.IsPowered(uid) || !comp.Active && audio != null)
+            audioUpdate(comp);
+        } else if (audio != null && !_power.IsPowered(uid) || !comp.Active && audio != null)
         {
             comp.SoundEntity = audio.Value.Entity;
             _audio.SetGain(comp.SoundEntity, 0);
         }
+        Dirty(uid, comp);
     }
 
     private void OnMediaStopped(EntityUid uid, StationRadioReceiverComponent comp, StationRadioMediaStoppedEvent args)

@@ -1,3 +1,4 @@
+using Content.Omu.Common.CCVar;
 using Content.Goobstation.Shared.StationRadio.Components;
 using Content.Goobstation.Shared.StationRadio.Events;
 using Content.Shared.Destructible;
@@ -8,6 +9,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Network;
+using Robust.Shared.Configuration;
 
 namespace Content.Goobstation.Shared.StationRadio.Systems;
 
@@ -18,6 +20,7 @@ public sealed class VinylPlayerSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedPowerReceiverSystem _power = default!;
     [Dependency] private readonly SharedDeviceLinkSystem _deviceLinkSystem = default!;
+    [Dependency] private readonly IConfigurationManager _cfgMan = default!;
 
     public override void Initialize()
     {
@@ -37,9 +40,10 @@ public sealed class VinylPlayerSystem : EntitySystem
             return;
 
         var query = EntityQueryEnumerator<StationRadioReceiverComponent>();
-        while (query.MoveNext(out var receiver, out _))
+        while (query.MoveNext(out var receiver, out var receiverComponent))
         {
             RaiseLocalEvent(receiver, new StationRadioMediaStoppedEvent());
+            Dirty(receiver, receiverComponent);
         }
     }
 
@@ -49,9 +53,10 @@ public sealed class VinylPlayerSystem : EntitySystem
             return;
 
         var query = EntityQueryEnumerator<StationRadioReceiverComponent>();
-        while (query.MoveNext(out var receiver, out var _))
+        while (query.MoveNext(out var receiver, out var receiverComponent))
         {
             RaiseLocalEvent(receiver, new StationRadioMediaStoppedEvent());
+            Dirty(receiver, receiverComponent);
         }
     }
 
@@ -75,7 +80,11 @@ public sealed class VinylPlayerSystem : EntitySystem
         while (query.MoveNext(out var receiver, out var receiverComponent))
         {
             if (!receiverComponent.SoundEntity.HasValue)
+            {
                 RaiseLocalEvent(receiver, new StationRadioMediaPlayedEvent(vinylcomp.Song));
+                Dirty(receiver, receiverComponent);
+            }
+
         }
     }
 

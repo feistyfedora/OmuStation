@@ -36,6 +36,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 <ui:OptionSlider Name="SliderMaxAmbienceSounds" Title="{Loc 'ui-options-ambience-max-sounds'}"
                                  Margin="0 0 0 8" />
                 <ui:OptionSlider Name="SliderHighlightVolume" Title="{Loc 'ui-options-highlight-volume'}" /> <!-- Goobstation - Highlight chat Ping/Audio! -->
+                <ui:OptionSlider Name="SliderVolumeRadioStation" Title="{Loc 'ui-options-radioStation-volume'}" /> <!-- Omustation - RadioStation audio -->
 
                 <CheckBox Name="HearSelfCheckBox" Text="{Loc 'ui-options-hear-self'}" />
                 <CheckBox Name="LobbyMusicCheckBox" Text="{Loc 'ui-options-lobby-music'}" />
