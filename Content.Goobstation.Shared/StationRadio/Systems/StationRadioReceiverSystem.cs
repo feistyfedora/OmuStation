@@ -58,7 +58,7 @@ public sealed class StationRadioReceiverSystem : EntitySystem
             AudioComponent? component = null;
             Resolve(comp.SoundEntity.Value, ref component);
             if (component != null) 
-                component.setSync(false);
+                component.NetSyncEnabled = false;
         }
         _audio.SetGain(comp.SoundEntity, comp.Active ? comp.volume : 0f);
     }
