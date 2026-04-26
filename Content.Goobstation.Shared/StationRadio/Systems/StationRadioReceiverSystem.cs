@@ -8,6 +8,9 @@ using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
 using Robust.Shared.Audio.Components;
+using Content.Shared.Mind;
+using Robust.Shared.GameObjects;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Generic;
 
 
 namespace Content.Goobstation.Shared.StationRadio.Systems;
@@ -17,6 +20,8 @@ public sealed class StationRadioReceiverSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedPowerReceiverSystem _power = default!;
     [Dependency] private readonly IConfigurationManager _cfgMan = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly EntityLookupSystem _entityLookup = default!;
     
     // Omustation - volume controller for station radio
     private float _volume = 0f;
@@ -35,6 +40,22 @@ public sealed class StationRadioReceiverSystem : EntitySystem
         _volume = _cfgMan.GetCVar(OmuCVars.StationRadioVolume);
     }
 
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        var query = EntityQueryEnumerator<StationRadioReceiverComponent>();
+
+        while (query.MoveNext(out var uid, out var mind)) {
+            TransformComponent? xform = null;
+            var sourcePos = _transform.GetMapCoordinates(uid, xform);
+
+            var mindThings = new HashSet<Entity<MindComponent>>();
+            if (xform != null)
+                _entityLookup.GetEntitiesInRange(xform.Coordinates, 8f, mindThings);
+        }
+
+    }
 
     private void StationRadioCVarChanged(float obj) 
     {
