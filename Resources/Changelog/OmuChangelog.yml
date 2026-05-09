@@ -3855,3 +3855,9 @@ Entries:
       message: Fixed being able to bypass species requirements on uplinks
   id: 490
   time: '2026-05-09T21:50:08.0000000+00:00'
+- author: CliveOcelot
+  changes:
+    - type: Add
+      message: Ported the synth trait from DV
+  id: 491
+  time: '2026-05-09T22:11:39.0000000+00:00'
