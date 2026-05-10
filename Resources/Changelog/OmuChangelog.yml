@@ -3938,3 +3938,11 @@ Entries:
       message: Added Squibbo's "Extermination" artwork to the lobby art rotation!
   id: 499
   time: '2026-05-10T00:24:18.0000000+00:00'
+- author: raincall
+  changes:
+    - type: Add
+      message: Ported the longcoats from delta v, look in command loadouts
+    - type: Tweak
+      message: Medical doctors have like 2 more shoes in their loadout hooray
+  id: 500
+  time: '2026-05-10T00:30:30.0000000+00:00'
