@@ -3996,3 +3996,9 @@ Entries:
       message: Replaced the NTR belt with a caneblade
   id: 506
   time: '2026-05-13T05:29:28.0000000+00:00'
+- author: Aureu
+  changes:
+    - type: Fix
+      message: NT Cane blade now spawns with the cane
+  id: 507
+  time: '2026-05-14T11:04:24.0000000+00:00'
