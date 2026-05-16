@@ -4050,3 +4050,11 @@ Entries:
         Squeaksqueaksqueaksqueaksqueak!!
   id: 514
   time: '2026-05-15T18:37:19.0000000+00:00'
+- author: rainflies
+  changes:
+    - type: Tweak
+      message: >-
+        Moved the advanced remote signaller in the uplink to the suspicious
+        toolbox.
+  id: 515
+  time: '2026-05-16T05:42:59.0000000+00:00'
