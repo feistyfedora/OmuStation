@@ -161,7 +161,7 @@
   id: JobBorg
   nameDataset: NamesBorg
   canCustomizeName: true
-  groups:
+  groups: # Omu
   - CyborgHead
 
 - type: roleLoadout
