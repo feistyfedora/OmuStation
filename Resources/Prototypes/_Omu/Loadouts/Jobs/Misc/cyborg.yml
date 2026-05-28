@@ -3,3 +3,28 @@
   id: PropellerHead
   equipment:
     head: ClothingHeadHatPropeller
+
+- type: loadout
+  id: PartyHatRedHead
+  equipment:
+    head: ClothingHeadHatPartyRed
+
+- type: loadout
+  id: BeanieHead
+  equipment:
+    head: ClothingHeadHatCanadaBeanie
+    
+- type: loadout
+  id: ChefHatHead
+  equipment:
+    head: ClothingHeadHatChef
+
+- type: loadout
+  id: FezHatHead
+  equipment:
+    head: ClothingHeadHatFez
+
+- type: loadout
+  id: FedoraHatHead
+  equipment:
+    head: ClothingHeadHatFedoraBrown
