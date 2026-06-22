@@ -176,7 +176,7 @@
       enum.RemoteDeviceUiKey.Key: # Corvax-Next-AiRemoteControl
         type: RemoteDevicesBoundUserInterface
       enum.CamWarpUiKey.Key: # Goobstation-Ai-Camera-Jumping
-        type: AiCameraWarpBoundUserInterface
+        type: AiSurveillanceCameraMonitorBoundUserInterface # AiCameraWarpBoundUserInterface
   - type: IntrinsicUI
     uis:
       enum.RadarConsoleUiKey.Key:

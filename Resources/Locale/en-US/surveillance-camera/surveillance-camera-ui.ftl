@@ -17,3 +17,4 @@ surveillance-camera-monitor-ui-no-subnets = No Subnets
 surveillance-camera-setup = Setup
 surveillance-camera-setup-ui-set = Set
 
+ai-surveillance-camera-monitor-ui-window = AI Camera monitor
