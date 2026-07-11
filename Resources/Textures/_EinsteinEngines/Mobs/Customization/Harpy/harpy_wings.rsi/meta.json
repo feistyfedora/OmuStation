@@ -94,6 +94,14 @@
         {
             "name": "bionic_wings_tone_2",
             "directions": 4
+        },
+        {
+            "name": "harpy_2tone_whitehue_1",
+            "directions": 4
+        },
+        {
+            "name": "harpy_2tone_whitehue_2",
+            "directions": 4
         }
     ]
 }
