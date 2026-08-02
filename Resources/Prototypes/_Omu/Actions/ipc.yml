@@ -1,0 +1,16 @@
+- type: entity
+  parent: BaseAction
+  id: ActionAccessLimbs
+  name: Access Limbs
+  description: Opens the Limbs Access Interface.
+  components:
+  - type: Action
+    checkConsciousness: true
+    checkCanInteract: false
+    priority: -9
+    itemIconStyle: BigAction
+    icon:
+      sprite: _Omu/Actions/actions_ipc.rsi
+      state: limb
+  - type: InstantAction
+    event: !type:ToggleIntrinsicUIEvent { key: enum.AccessLimbsKey.Key }

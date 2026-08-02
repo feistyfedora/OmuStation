@@ -251,8 +251,10 @@
         enum.WizardTeleportUiKey.Key: # Goobstation - wizard
           type: WizardTeleportBoundUserInterface
           requireInputValidation: false
-      enum.RadarConsoleUiKey.Key: #goob - contractor
-        type: RadarConsoleBoundUserInterface
+        enum.RadarConsoleUiKey.Key: #goob - contractor
+          type: RadarConsoleBoundUserInterface
+        enum.AccessLimbsKey.Key: # Omu - IPCLimbs
+          type: ToggleLimbsAccessBoundUserInterface
     - type: Emoting
     - type: Grammar
       attributes:
@@ -356,3 +358,7 @@
     - type: CombatMode
       canDisarm: true
     - type: ExaminableCharacter # WWDP
+    - type: IpcLimbs
+    - type: ActionGrant
+      actions:
+        - ActionAccessLimbs
