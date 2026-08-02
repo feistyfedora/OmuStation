@@ -1,0 +1,14 @@
+{
+	"version": 1,
+	"license": "MIT",
+	"copyright": "Made by feistyfedora",
+	"size": {
+		"x": 32,
+		"y": 32
+	},
+	"states": [
+		{
+			"name": "limb"
+		}
+	]
+}
