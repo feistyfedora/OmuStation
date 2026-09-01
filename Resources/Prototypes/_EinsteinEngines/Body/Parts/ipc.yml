@@ -25,6 +25,8 @@
   - type: Nerve
   - type: Boneless # Goob Edit
     bonePenalty: 1
+  - type: IpcLimbs
+  
 
 - type: entity
   parent: [ PartIPCBase, BaseChestInorganic ]

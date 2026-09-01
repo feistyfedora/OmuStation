@@ -237,8 +237,6 @@
           requireInputValidation: false
         enum.RadarConsoleUiKey.Key: #goob - contractor
           type: RadarConsoleBoundUserInterface
-        enum.AccessLimbsKey.Key: # Omu - IPCLimbs
-          type: ToggleLimbsAccessBoundUserInterface
     - type: Emoting
     - type: Grammar
       attributes:
@@ -343,7 +341,3 @@
       canDisarm: true
     - type: ExaminableCharacter # WWDP
     - type: CosmicCenserTarget # DeltaV - Cosmic Cult
-    - type: IpcLimbs
-    - type: ActionGrant
-      actions:
-        - ActionAccessLimbs

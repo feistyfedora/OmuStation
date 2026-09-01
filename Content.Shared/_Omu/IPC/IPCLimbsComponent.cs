@@ -15,7 +15,7 @@ public sealed partial class IpcLimbsComponent : Component
 }
 
 [Serializable, NetSerializable]
-public enum AccessLimbsKey : byte
+public enum AccessLimbsUiKey : byte
 {
     Key
 }

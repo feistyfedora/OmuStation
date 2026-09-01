@@ -9,11 +9,14 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-using System.Numerics;
 using Content.Client.UserInterface.Controls;
+using Content.Shared._Omu.IPC;
+using Content.Shared.Clothing.Components;
+using Content.Shared.Item;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
+using System.Numerics;
 
 namespace Content.Client._Omu.IPCLimbs.UI;
 
@@ -41,10 +44,36 @@ public sealed partial class ToggleLimbsAccess : RadialMenu
     {
         var main = FindControl<RadialContainer>("Main");
 
-        AddToggleableClothingMenuButtonOnClickAction(main);
+        var limbsEnum = _entityManager.EntityQueryEnumerator<IpcLimbsComponent>();
+
+        while (limbsEnum.MoveNext(out var uid, out var limbsComp))
+        {
+            var button = new ToggleLimbsAccessButton()
+            {
+                SetSize = new Vector2(64, 64),
+                ToolTip = "IPC Limb",
+                limbsId = uid
+            };
+
+            var spriteView = new SpriteView()
+            {
+                SetSize = new Vector2(48, 48),
+                VerticalAlignment = VAlignment.Center,
+                HorizontalAlignment = HAlignment.Center,
+                Stretch = SpriteView.StretchMode.Fill
+            };
+
+            spriteView.SetEntity(uid);
+
+            button.AddChild(spriteView);
+            main.AddChild(button);
+        }
+
+
+        AddToggleableLimbMenuButtonOnClickAction(main);
     }
 
-    private void AddToggleableClothingMenuButtonOnClickAction(Control control)
+    private void AddToggleableLimbMenuButtonOnClickAction(Control control)
     {
         var mainControl = control as RadialContainer;
 
@@ -67,7 +96,7 @@ public sealed partial class ToggleLimbsAccess : RadialMenu
     }
 }
 
-public sealed class ToggleLimbsAccessButton : RadialMenuTextureButtonWithSector
+public sealed class ToggleLimbsAccessButton : RadialMenuButtonWithSector
 {
-    public EntityUid AttachedClothingId { get; set; }
+    public EntityUid limbsId { get; set; }
 }

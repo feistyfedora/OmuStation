@@ -11,6 +11,7 @@
 using Robust.Client.Graphics;
 using Robust.Client.Input;
 using Robust.Client.UserInterface;
+using Content.Shared._Omu.IPC;
 
 namespace Content.Client._Omu.IPCLimbs.UI;
 
@@ -26,6 +27,8 @@ public sealed class ToggleLimbsAccessBoundUserInterface : BoundUserInterface
     {
         IoCManager.InjectDependencies(this);
         _entityManager = IoCManager.Resolve<IEntityManager>();
+
+        
     }
 
     protected override void Open()
@@ -34,8 +37,6 @@ public sealed class ToggleLimbsAccessBoundUserInterface : BoundUserInterface
 
         _menu = this.CreateWindow<ToggleLimbsAccess>();
         _menu.SetEntity(Owner);
-        // _menu.SendToggleClothingMessageAction += SendToggleableClothingMessage;
-
         var vpSize = _displayManager.ScreenSize;
         _menu.OpenCenteredAt(_inputManager.MouseScreenPosition.Position / vpSize);
     }

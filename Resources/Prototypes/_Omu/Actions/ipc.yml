@@ -13,4 +13,4 @@
       sprite: _Omu/Actions/actions_ipc.rsi
       state: limb
   - type: InstantAction
-    event: !type:ToggleIntrinsicUIEvent { key: enum.AccessLimbsKey.Key }
+    event: !type:ToggleIntrinsicUIEvent { key: enum.AccessLimbsUiKey.Key }

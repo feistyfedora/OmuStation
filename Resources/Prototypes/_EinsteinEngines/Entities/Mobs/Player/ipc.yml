@@ -43,6 +43,8 @@
         type: SurgeryBui
       enum.RadarConsoleUiKey.Key: #goob - contractor
         type: RadarConsoleBoundUserInterface
+      enum.AccessLimbsUiKey.Key: # Omu - IPCLimbs
+        type: ToggleLimbsAccessBoundUserInterface
   # Goobstation Start - Energycrit
   # - type: PowerCellSlot
   #   cellSlotId: cell_slot
@@ -173,6 +175,10 @@
     - AnomalyHost
     - IPCDrinkBlacklist # Goobstation - Energycrit: Don't let self antagging IPCs steal power from other ipcs.
   - type: IPCEmpVulnerable # Omu
+  - type: IntrinsicUI # Goob edit
+    uis:
+      enum.AccessLimbsUiKey.Key:
+        toggleAction: ActionAccessLimbs
 
 - type: entity
   save: false
