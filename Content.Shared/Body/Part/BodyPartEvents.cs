@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MIT
 
+using Content.Shared.Body.Components;
+
 namespace Content.Shared.Body.Part;
 
 [ByRefEvent]

@@ -12,6 +12,7 @@ namespace Content.Shared._Omu.IPC;
 [RegisterComponent]
 public sealed partial class IpcLimbsComponent : Component
 {
+    [DataField("parent")] public EntityUid? bodyOwner;
 }
 
 [Serializable, NetSerializable]

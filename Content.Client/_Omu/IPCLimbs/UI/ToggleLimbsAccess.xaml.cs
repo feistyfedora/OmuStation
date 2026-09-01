@@ -11,11 +11,16 @@
 
 using Content.Client.UserInterface.Controls;
 using Content.Shared._Omu.IPC;
+using Content.Shared.Atmos.Components;
+using Content.Shared.Body.Prototypes;
 using Content.Shared.Clothing.Components;
 using Content.Shared.Item;
+using Content.Shared.Preferences.Loadouts;
+using Content.Shared.Roles;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
+using Robust.Shared.Prototypes;
 using System.Numerics;
 
 namespace Content.Client._Omu.IPCLimbs.UI;
@@ -23,6 +28,8 @@ namespace Content.Client._Omu.IPCLimbs.UI;
 public sealed partial class ToggleLimbsAccess : RadialMenu
 {
     [Dependency] private readonly EntityManager _entityManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    private readonly ProtoId<BodyPrototype> ipcBodyProto = "IPC";
 
     public event Action<EntityUid>? SendToggleClothingMessageAction;
 
@@ -48,6 +55,9 @@ public sealed partial class ToggleLimbsAccess : RadialMenu
 
         while (limbsEnum.MoveNext(out var uid, out var limbsComp))
         {
+            if (limbsComp.bodyOwner != Entity)
+                continue;
+
             var button = new ToggleLimbsAccessButton()
             {
                 SetSize = new Vector2(64, 64),
