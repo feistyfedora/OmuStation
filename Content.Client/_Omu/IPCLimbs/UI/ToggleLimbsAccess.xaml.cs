@@ -12,6 +12,7 @@
 using Content.Client.UserInterface.Controls;
 using Content.Shared._Omu.IPC;
 using Content.Shared.Atmos.Components;
+using Content.Shared.Body.Part;
 using Content.Shared.Body.Prototypes;
 using Content.Shared.Clothing.Components;
 using Content.Shared.Item;
@@ -51,17 +52,20 @@ public sealed partial class ToggleLimbsAccess : RadialMenu
     {
         var main = FindControl<RadialContainer>("Main");
 
-        var limbsEnum = _entityManager.EntityQueryEnumerator<IpcLimbsComponent>();
+        var limbsEnum = _entityManager.EntityQueryEnumerator<IpcLimbsComponent, BodyPartComponent>();
 
-        while (limbsEnum.MoveNext(out var uid, out var limbsComp))
+        while (limbsEnum.MoveNext(out var uid, out var limbsComp, out var bodyPartComp))
         {
-            if (limbsComp.bodyOwner != Entity)
+            if (bodyPartComp.Body != Entity)
+                continue;
+
+            if (!_entityManager.TryGetComponent<MetaDataComponent>(uid, out var meta))
                 continue;
 
             var button = new ToggleLimbsAccessButton()
             {
                 SetSize = new Vector2(64, 64),
-                ToolTip = "IPC Limb",
+                ToolTip = meta.EntityName,
                 limbsId = uid
             };
 
